@@ -1,0 +1,10 @@
+{
+    "name": "kbaczkiewicz/isys-client",
+    "authors": [
+        {
+            "name": "Kamil Bączkiewicz",
+            "email": "kbaczkiewitz@gmail.com"
+        }
+    ],
+    "require": {}
+}
