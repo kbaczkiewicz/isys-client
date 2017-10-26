@@ -6,5 +6,8 @@
             "email": "kbaczkiewitz@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "IsysRestClient\\": "src/"
+    }
 }
