@@ -7,36 +7,18 @@ use IsysRestClient\Response\CreateOneProducerResponse;
 
 class CreateOneProducerRequest extends AbstractRequest
 {
-    /**
-     * @var array
-     */
-    private $body;
-
-    /**
-     * CreateOneProducerRequest constructor.
-     * @param string $requestUrl
-     * @param array $body
-     */
-    public function __construct($requestUrl, array $body)
-    {
-        parent::__construct($requestUrl);
-        $this->body = $body;
-    }
 
     /**
      * @return string
      */
-    public function getExcpectedResponseClass()
+    public function getExcpectedResponseClassName()
     {
         return CreateOneProducerResponse::class;
     }
 
-    /**
-     * @return array
-     */
-    public function getBody(): array
+    public function getData()
     {
-        return $this->body;
+        return json_encode($this->data);
     }
 
     /**

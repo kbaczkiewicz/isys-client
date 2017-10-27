@@ -7,7 +7,7 @@ use IsysRestClient\Request\Method\RequestMethodMap;
 class GetAllProducersRequest extends AbstractRequest
 {
 
-    public function getExcpectedResponseClass()
+    public function getExcpectedResponseClassName()
     {
         return GetAllProducersRequest::class;
     }
