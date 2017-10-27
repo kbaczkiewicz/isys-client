@@ -3,6 +3,12 @@
 namespace IsysRestClient\Response;
 
 
-class CreateOneProducerResponse
+use IsysRestClient\Model\Producer;
+
+class CreateOneProducerResponse extends AbstractResponse
 {
+    public function getProducer()
+    {
+        return new Producer($this->body['data']['producer']);
+    }
 }
