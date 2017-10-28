@@ -16,6 +16,7 @@ class CurlInstanceBuilder
     {
         $this->url = $url;
         $this->curlHandler = curl_init($url);
+        curl_setopt($this->curlHandler, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($this->curlHandler, CURLOPT_RETURNTRANSFER, true);
     }
 
@@ -28,7 +29,9 @@ class CurlInstanceBuilder
 
     public function setAdditionalHeaders(array $headers)
     {
-        curl_setopt($this->curlHandler, CURLOPT_HTTPHEADER, $headers);
+        foreach ($headers as $header) {
+            curl_setopt($this->curlHandler, CURLOPT_HTTPHEADER, $header);
+        }
 
         return $this;
     }

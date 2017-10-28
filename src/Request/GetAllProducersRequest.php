@@ -3,13 +3,14 @@
 namespace IsysRestClient\Request;
 
 use IsysRestClient\Request\Method\RequestMethodMap;
+use IsysRestClient\Response\GetAllProducersResponse;
 
 class GetAllProducersRequest extends AbstractRequest
 {
 
     public function getExcpectedResponseClassName()
     {
-        return GetAllProducersRequest::class;
+        return GetAllProducersResponse::class;
     }
 
     public function getMethod()

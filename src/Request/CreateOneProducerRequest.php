@@ -18,7 +18,11 @@ class CreateOneProducerRequest extends AbstractRequest
 
     public function getData()
     {
-        return json_encode($this->data);
+        return json_encode(
+            [
+                'producer' => $this->data,
+            ]
+        );
     }
 
     /**

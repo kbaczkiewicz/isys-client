@@ -5,8 +5,6 @@ namespace IsysRestClient\Client;
 use IsysRestClient\Authorization\AbstractAuthorization;
 use IsysRestClient\Curl\CurlInstanceBuilder;
 use IsysRestClient\Exception\BadRequestException;
-use IsysRestClient\Exception\HttpBadRequestException;
-use IsysRestClient\Exception\HttpNotFoundException;
 use IsysRestClient\Request\AbstractRequest;
 use IsysRestClient\Request\Method\RequestMethodMap;
 use InvalidArgumentException;
@@ -19,27 +17,29 @@ class Client
 
     private $curlInstanceBuilder;
 
-    public function __construct(CurlInstanceBuilder $curlInstanceBuilder)
+    private $request;
+
+    public function __construct(AbstractRequest $request, CurlInstanceBuilder $curlInstanceBuilder)
     {
+        $this->request = $request;
         $this->curlInstanceBuilder = $curlInstanceBuilder;
     }
-
 
     public function authorize(AbstractAuthorization $authorization)
     {
         $this->curlInstanceBuilder->setAuthorization($authorization);
     }
 
-    public function sendRequest(AbstractRequest $request): AbstractResponse
+    public function sendRequest(): AbstractResponse
     {
-        $this->validateRequestMethod($request->getMethod());
+        $this->validateRequestMethod($this->request->getMethod());
         $curlHandler = $this->curlInstanceBuilder
-            ->setRequestMethod($request->getMethod())
-            ->setAdditionalHeaders($request->getHeaders())
-            ->setRequestData($request->getMethod(), $request->getData())
+            ->setAdditionalHeaders($this->request->getHeaders())
+            ->setRequestMethod($this->request->getMethod())
+            ->setRequestData($this->request->getMethod(), $this->request->getData())
             ->getInstance();
 
-        return $this->createResponse($curlHandler, $request->getExcpectedResponseClass());
+        return $this->createResponse($curlHandler, $this->request->getExcpectedResponseClassName());
     }
 
     private function validateRequestMethod(string $httpMethod)
@@ -51,17 +51,20 @@ class Client
 
     private function createResponse($curlHandler, $responseClassName)
     {
-        if (!curl_exec($curlHandler)) {
+        $result = curl_exec($curlHandler);
+        if (false === $result) {
             throw new Exception("cURL error: " . curl_error($curlHandler));
         }
 
         if (self::HTTP_OK !== curl_getinfo($curlHandler, CURLINFO_HTTP_CODE)) {
             throw new BadRequestException(
-                (string)($curlHandler['data']['messages']),
+                $result,
                 curl_getinfo($curlHandler, CURLINFO_HTTP_CODE)
             );
         }
 
-        return new $responseClassName($curlHandler);
+        curl_close($curlHandler);
+
+        return new $responseClassName($result);
     }
 }
