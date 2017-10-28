@@ -11,7 +11,7 @@ $client = \IsysRestClient\Client\ClientFactory::createClient($request);
 $client->authorize(new \IsysRestClient\Authorization\BasicAuthAuthorization($login, $password));
 try {
     $response = $client->sendRequest();
-    var_dump($response);
+    var_dump($response->getProducers());
 } catch (Exception $ex) {
     var_dump($ex->getCode() . ":" . $ex->getMessage());
 }

@@ -11,6 +11,6 @@ abstract class AbstractResponse
 
     public function __construct($body)
     {
-        $this->body = json_decode($body);
+        $this->body = json_decode($body, true);
     }
 }

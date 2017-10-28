@@ -7,9 +7,9 @@ $password = $argv[2];
 $producer = new \IsysRestClient\Model\Producer(
     [
         'id'            => null,
-        'name'          => 'Test producer',
+        'name'          => 'Kamil Tester',
         'site_url'      => 'http;//example.com',
-        'logo_filename' => 'logo.png',
+        'logo_filename' => 'kamil.png',
         'ordering'      => null,
         'source_id'     => null,
     ]
@@ -26,7 +26,7 @@ $client->authorize(
 );
 try {
     $response = $client->sendRequest();
-    var_dump($response);
+    var_dump($response->getProducer());
 } catch (Exception $ex) {
     var_dump($ex->getCode() . ':' . $ex->getMessage());
 }
