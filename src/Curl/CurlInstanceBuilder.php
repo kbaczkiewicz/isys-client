@@ -3,7 +3,7 @@
 namespace IsysRestClient\Curl;
 
 use IsysRestClient\Authorization\AbstractAuthorization;
-use IsysRestClient\Request\Method\RequestMethodMap;
+use IsysRestClient\Request\RequestMethod\RequestMethodMap;
 use InvalidArgumentException;
 
 class CurlInstanceBuilder
@@ -50,7 +50,7 @@ class CurlInstanceBuilder
                 curl_setopt($this->curlHandler, CURLOPT_POSTFIELDS, $data);
                 break;
             default:
-                throw new InvalidArgumentException("Method not allowed");
+                throw new InvalidArgumentException("RequestMethod not allowed");
         }
 
         return $this;

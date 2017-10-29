@@ -6,7 +6,7 @@ use IsysRestClient\Authorization\AbstractAuthorization;
 use IsysRestClient\Curl\CurlInstanceBuilder;
 use IsysRestClient\Exception\BadRequestException;
 use IsysRestClient\Request\AbstractRequest;
-use IsysRestClient\Request\Method\RequestMethodMap;
+use IsysRestClient\Request\RequestMethod\RequestMethodMap;
 use InvalidArgumentException;
 use Exception;
 use IsysRestClient\Response\AbstractResponse;
@@ -45,7 +45,7 @@ class Client
     private function validateRequestMethod(string $httpMethod)
     {
         if (!in_array($httpMethod, RequestMethodMap::getList())) {
-            throw new InvalidArgumentException("Method is not allowed");
+            throw new InvalidArgumentException("RequestMethod is not allowed");
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace IsysRestClient\Request\Method;
+namespace IsysRestClient\Request\RequestMethod;
 
 use ReflectionClass;
 

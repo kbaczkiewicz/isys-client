@@ -2,7 +2,7 @@
 
 namespace IsysRestClient\Request;
 
-use IsysRestClient\Request\Method\RequestMethodMap;
+use IsysRestClient\Request\RequestMethod\RequestMethodMap;
 use IsysRestClient\Response\CreateOneProducerResponse;
 
 class CreateOneProducerRequest extends AbstractRequest
