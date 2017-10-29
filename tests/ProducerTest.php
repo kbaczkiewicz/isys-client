@@ -23,7 +23,7 @@ class ProducerTest extends TestCase
     {
         $producer = new Producer($this->getProducerArray());
         $jsonString = json_encode($producer->jsonSerialize());
-        $this->assertInternalType('string', json_encode($jsonString));
+        $this->assertInternalType('string', $jsonString);
         $this->assertInternalType('array', json_decode($jsonString, true));
     }
 

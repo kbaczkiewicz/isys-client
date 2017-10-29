@@ -13,10 +13,17 @@ use IsysRestClient\Response\AbstractResponse;
 
 class Client
 {
+
     const HTTP_OK = 200;
 
+    /**
+     * @var CurlInstanceBuilder
+     */
     private $curlInstanceBuilder;
 
+    /**
+     * @var AbstractRequest
+     */
     private $request;
 
     public function __construct(AbstractRequest $request, CurlInstanceBuilder $curlInstanceBuilder)
@@ -49,7 +56,7 @@ class Client
         }
     }
 
-    private function createResponse($curlHandler, $responseClassName)
+    private function createResponse($curlHandler, $responseClassName): AbstractResponse
     {
         $result = curl_exec($curlHandler);
         if (false === $result) {

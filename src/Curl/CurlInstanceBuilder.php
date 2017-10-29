@@ -8,11 +8,17 @@ use InvalidArgumentException;
 
 class CurlInstanceBuilder
 {
+    /**
+     * @var resource
+     */
     private $curlHandler;
 
+    /**
+     * @var string
+     */
     private $url;
 
-    public function __construct($url)
+    public function __construct(string $url)
     {
         $this->url = $url;
         $this->curlHandler = curl_init($url);
@@ -20,14 +26,14 @@ class CurlInstanceBuilder
         curl_setopt($this->curlHandler, CURLOPT_RETURNTRANSFER, true);
     }
 
-    public function setRequestMethod(string $httpMethod)
+    public function setRequestMethod(string $httpMethod): CurlInstanceBuilder
     {
         curl_setopt($this->curlHandler, CURLOPT_CUSTOMREQUEST, $httpMethod);
 
         return $this;
     }
 
-    public function setAdditionalHeaders(array $headers)
+    public function setAdditionalHeaders(array $headers): CurlInstanceBuilder
     {
         foreach ($headers as $header) {
             curl_setopt($this->curlHandler, CURLOPT_HTTPHEADER, $header);
@@ -36,7 +42,7 @@ class CurlInstanceBuilder
         return $this;
     }
 
-    public function setRequestData($httpMethod, $data)
+    public function setRequestData($httpMethod, $data): CurlInstanceBuilder
     {
         switch ($httpMethod) {
             case RequestMethodMap::METHOD_GET:
@@ -56,7 +62,7 @@ class CurlInstanceBuilder
         return $this;
     }
 
-    public function setAuthorization(AbstractAuthorization $authorization)
+    public function setAuthorization(AbstractAuthorization $authorization): CurlInstanceBuilder
     {
         $authorization->authorize($this->curlHandler);
 
@@ -68,7 +74,7 @@ class CurlInstanceBuilder
         return $this->curlHandler;
     }
 
-    private function prepareUrlWithQueryString(string $queryString)
+    private function prepareUrlWithQueryString(string $queryString): string
     {
         return $this->url . '?' . $queryString;
     }

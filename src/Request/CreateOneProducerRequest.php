@@ -7,16 +7,12 @@ use IsysRestClient\Response\CreateOneProducerResponse;
 
 class CreateOneProducerRequest extends AbstractRequest
 {
-
-    /**
-     * @return string
-     */
-    public function getExcpectedResponseClassName()
+    public function getExcpectedResponseClassName(): string
     {
         return CreateOneProducerResponse::class;
     }
 
-    public function getData()
+    public function getData(): string
     {
         return json_encode(
             [
@@ -25,10 +21,7 @@ class CreateOneProducerRequest extends AbstractRequest
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getMethod()
+    public function getMethod(): string
     {
         return RequestMethodMap::METHOD_POST;
     }

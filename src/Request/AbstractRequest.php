@@ -21,26 +21,18 @@ abstract class AbstractRequest
      */
     protected $data;
 
-    /**
-     * AbstractRequest constructor.
-     * @param string $requestUrl
-     * @param string $data
-     */
     public function __construct($requestUrl, $data = '')
     {
         $this->requestUrl = $requestUrl;
         $this->data = $data;
     }
 
-    /**
-     * @return string
-     */
-    public function getRequestUrl()
+    public function getRequestUrl(): string
     {
         return $this->requestUrl;
     }
 
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
@@ -65,7 +57,7 @@ abstract class AbstractRequest
         return $this->data;
     }
 
-    abstract public function getExcpectedResponseClassName();
+    abstract public function getExcpectedResponseClassName(): string;
 
-    abstract public function getMethod();
+    abstract public function getMethod(): string;
 }

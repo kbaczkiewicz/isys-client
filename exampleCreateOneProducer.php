@@ -7,9 +7,9 @@ $password = $argv[2];
 $producer = new \IsysRestClient\Model\Producer(
     [
         'id'            => null,
-        'name'          => 'Kamil Tester',
+        'name'          => 'Test Test',
         'site_url'      => 'http;//example.com',
-        'logo_filename' => 'kamil.png',
+        'logo_filename' => 'test.png',
         'ordering'      => null,
         'source_id'     => null,
     ]

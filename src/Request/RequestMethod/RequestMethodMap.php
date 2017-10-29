@@ -9,7 +9,7 @@ class RequestMethodMap
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
 
-    public static function getList()
+    public static function getList(): array
     {
         $reflection = new ReflectionClass(__CLASS__);
         return $reflection->getConstants();

@@ -6,16 +6,34 @@ use JsonSerializable;
 
 class Producer implements JsonSerializable
 {
+    /**
+     * @var int
+     */
     private $id;
 
+    /**
+     * @var string
+     */
     private $name;
 
+    /**
+     * @var string
+     */
     private $siteUrl;
 
+    /**
+     * @var string
+     */
     private $logoFilename;
 
+    /**
+     * @var int
+     */
     private $ordering;
 
+    /**
+     * @var int
+     */
     private $sourceId;
 
     public function __construct(array $data)
@@ -28,50 +46,32 @@ class Producer implements JsonSerializable
         $this->sourceId = $data['source_id'];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSiteUrl()
+    public function getSiteUrl(): string
     {
         return $this->siteUrl;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLogoFilename()
+    public function getLogoFilename(): string
     {
         return $this->logoFilename;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOrdering()
+    public function getOrdering(): int
     {
         return $this->ordering;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSourceId()
+    public function getSourceId(): int
     {
         return $this->sourceId;
     }

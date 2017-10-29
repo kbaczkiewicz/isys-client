@@ -6,7 +6,7 @@ use IsysRestClient\Model\Producer;
 
 class GetAllProducersResponse extends AbstractResponse
 {
-    public function getProducers()
+    public function getProducers(): array
     {
         $producers = [];
         foreach ($this->body['data']['producers'] as $producerArray) {

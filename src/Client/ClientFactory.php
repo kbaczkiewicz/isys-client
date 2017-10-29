@@ -11,7 +11,7 @@ class ClientFactory
     {
     }
 
-    public static function createClient(AbstractRequest $request)
+    public static function createClient(AbstractRequest $request): Client
     {
         return new Client($request, new CurlInstanceBuilder($request->getRequestUrl()));
     }
