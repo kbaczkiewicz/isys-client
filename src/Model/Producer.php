@@ -36,14 +36,17 @@ class Producer implements JsonSerializable
      */
     private $sourceId;
 
-    public function __construct(array $data)
+    public static function createByArray(array $data)
     {
-        $this->id = $data['id'];
-        $this->name = $data['name'];
-        $this->siteUrl = $data['site_url'];
-        $this->logoFilename = $data['logo_filename'];
-        $this->ordering = $data['ordering'];
-        $this->sourceId = $data['source_id'];
+        $producer = new self;
+        $producer->id = $data['id'];
+        $producer->name = $data['name'];
+        $producer->siteUrl = $data['site_url'];
+        $producer->logoFilename = $data['logo_filename'];
+        $producer->ordering = $data['ordering'];
+        $producer->sourceId = $data['source_id'];
+
+        return $producer;
     }
 
     public function getId(): int

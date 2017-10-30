@@ -2,9 +2,14 @@
 
 include('vendor/autoload.php');
 
+use IsysRestClient\Request\CreateOneProducerRequest;
+use IsysRestClient\Client\ClientFactory;
+use IsysRestClient\Authorization\BasicAuthAuthorization;
+use IsysRestClient\Model\Producer;
+
 $login = $argv[1];
 $password = $argv[2];
-$producer = new \IsysRestClient\Model\Producer(
+$producer = Producer::createByArray(
     [
         'id'            => null,
         'name'          => 'Test Test',
@@ -14,15 +19,15 @@ $producer = new \IsysRestClient\Model\Producer(
         'source_id'     => null,
     ]
 );
-$request = new \IsysRestClient\Request\CreateOneProducerRequest(
+$request = new CreateOneProducerRequest(
     'http://grzegorz.demos.i-sklep.pl/rest_api/shop_api/v1/producers',
     $producer
 );
 $request->addHeader(['Content-Type: application/json']);
 
-$client = \IsysRestClient\Client\ClientFactory::createClient($request);
+$client = ClientFactory::createClient($request);
 $client->authorize(
-    new \IsysRestClient\Authorization\BasicAuthAuthorization($login, $password)
+    new BasicAuthAuthorization($login, $password)
 );
 try {
     $response = $client->sendRequest();

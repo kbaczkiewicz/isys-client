@@ -10,7 +10,7 @@ class GetAllProducersResponse extends AbstractResponse
     {
         $producers = [];
         foreach ($this->body['data']['producers'] as $producerArray) {
-            $producers[] = new Producer($producerArray);
+            $producers[] = Producer::createByArray($producerArray);
         }
 
         return $producers;

@@ -7,7 +7,7 @@ class ProducerTest extends TestCase
 {
     public function testCreatesByArraySuccesfully()
     {
-        $this->assertInstanceOf(Producer::class, new Producer($this->getProducerArray()));
+        $this->assertInstanceOf(Producer::class, Producer::createByArray($this->getProducerArray()));
     }
 
     public function testCreateByArrayWithAdditionalFieldsSuccesfully()
@@ -16,12 +16,12 @@ class ProducerTest extends TestCase
         $producerArray['foo'] = 'foo';
         $producerArray['baz'] = 'baz';
 
-        $this->assertInstanceOf(Producer::class, new Producer($producerArray));
+        $this->assertInstanceOf(Producer::class, Producer::createByArray($producerArray));
     }
 
     public function canTurnToJsonAndBack()
     {
-        $producer = new Producer($this->getProducerArray());
+        $producer = Producer::createByArray($this->getProducerArray());
         $jsonString = json_encode($producer->jsonSerialize());
         $this->assertInternalType('string', $jsonString);
         $this->assertInternalType('array', json_decode($jsonString, true));

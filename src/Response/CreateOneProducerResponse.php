@@ -8,6 +8,6 @@ class CreateOneProducerResponse extends AbstractResponse
 {
     public function getProducer(): Producer
     {
-        return new Producer($this->body['data']['producer']);
+        return Producer::createByArray($this->body['data']['producer']);
     }
 }
