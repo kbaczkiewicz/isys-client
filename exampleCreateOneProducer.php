@@ -31,7 +31,7 @@ $client->authorize(
 );
 try {
     $response = $client->sendRequest();
-    var_dump($response->getProducer());
+    var_dump($response->getContent());
 } catch (Exception $ex) {
     var_dump($ex->getCode() . ':' . $ex->getMessage());
 }

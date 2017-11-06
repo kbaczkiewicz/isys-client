@@ -3,6 +3,7 @@
 namespace IsysRestClient\Request;
 
 use InvalidArgumentException;
+use IsysRestClient\Request\RequestMethod\RequestMethodMap;
 
 abstract class AbstractRequest
 {
@@ -55,6 +56,13 @@ abstract class AbstractRequest
     public function getData()
     {
         return $this->data;
+    }
+
+    private function validateRequest()
+    {
+        if(!in_array($this->getMethod(), RequestMethodMap::getList())) {
+            throw new \InvalidArgumentException("Bad method request");
+        }
     }
 
     abstract public function getExcpectedResponseClassName(): string;

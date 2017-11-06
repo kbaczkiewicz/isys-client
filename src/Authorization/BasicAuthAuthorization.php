@@ -2,7 +2,9 @@
 
 namespace IsysRestClient\Authorization;
 
-class BasicAuthAuthorization extends AbstractAuthorization
+use IsysRestClient\Curl\CurlInstance;
+
+class BasicAuthAuthorization implements AuthorizationInterface
 {
 
     /**
@@ -21,11 +23,10 @@ class BasicAuthAuthorization extends AbstractAuthorization
         $this->password = $password;
     }
 
-    public function authorize($curlHandler)
+    public function authorize(CurlInstance $curlInstance)
     {
-        $this->validateHandler($curlHandler);
-        curl_setopt($curlHandler, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+        $curlInstance->setOption(CURLOPT_USERPWD, $this->username . ':' . $this->password);
 
-        return $curlHandler;
+        return $curlInstance;
     }
 }

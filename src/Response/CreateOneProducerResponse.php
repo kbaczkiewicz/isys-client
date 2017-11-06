@@ -6,8 +6,8 @@ use IsysRestClient\Model\Producer;
 
 class CreateOneProducerResponse extends AbstractResponse
 {
-    public function getProducer(): Producer
+    public function getContent(): array
     {
-        return Producer::createByArray($this->body['data']['producer']);
+        return [Producer::createByArray($this->body['data']['producer'])];
     }
 }

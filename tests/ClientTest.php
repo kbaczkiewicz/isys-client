@@ -5,25 +5,11 @@ use IsysRestClient\Curl\CurlInstanceBuilder;
 use IsysRestClient\Request\AbstractRequest;
 use IsysRestClient\Request\RequestMethod\RequestMethodMap;
 use IsysRestClient\Response\AbstractResponse;
-use Mockery\Mock;
 use PHPUnit\Framework\TestCase;
+use \IsysRestClient\Curl\CurlInstance;
 
 class ClientTest extends TestCase
 {
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testInvalidRequestMethodThrowsInvalidArgumentException()
-    {
-        $client = new Client(
-            $this->getRequestMockWithInvalidMethod(),
-            $this->getCurlInstanceBuilderMock($this->getValidCurl())
-        );
-
-        $client->sendRequest();
-    }
-
     /**
      * @expectedException \IsysRestClient\Exception\BadRequestException
      */
@@ -77,11 +63,6 @@ class ClientTest extends TestCase
         return $this->getRequestMock(RequestMethodMap::METHOD_GET);
     }
 
-    private function getRequestMockWithInvalidMethod()
-    {
-        return $this->getRequestMock('someSurelyNotValidMethod');
-    }
-
     private function getCurlInstanceBuilderMock($curl)
     {
         $mock = \Mockery::mock(CurlInstanceBuilder::class)
@@ -106,7 +87,7 @@ class ClientTest extends TestCase
 
     private function getCurl($url)
     {
-        $curl = curl_init($url);
+        $curl = new CurlInstance($url);
 
         return $curl;
     }

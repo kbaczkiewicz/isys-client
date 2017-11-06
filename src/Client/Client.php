@@ -2,7 +2,8 @@
 
 namespace IsysRestClient\Client;
 
-use IsysRestClient\Authorization\AbstractAuthorization;
+use IsysRestClient\Authorization\AuthorizationInterface;
+use IsysRestClient\Curl\CurlInstance;
 use IsysRestClient\Curl\CurlInstanceBuilder;
 use IsysRestClient\Exception\BadRequestException;
 use IsysRestClient\Request\AbstractRequest;
@@ -32,45 +33,37 @@ class Client
         $this->curlInstanceBuilder = $curlInstanceBuilder;
     }
 
-    public function authorize(AbstractAuthorization $authorization)
+    public function authorize(AuthorizationInterface $authorization)
     {
         $this->curlInstanceBuilder->setAuthorization($authorization);
     }
 
     public function sendRequest(): AbstractResponse
     {
-        $this->validateRequestMethod($this->request->getMethod());
-        $curlHandler = $this->curlInstanceBuilder
+        $curlInstance = $this->curlInstanceBuilder
             ->setAdditionalHeaders($this->request->getHeaders())
             ->setRequestMethod($this->request->getMethod())
             ->setRequestData($this->request->getMethod(), $this->request->getData())
             ->getInstance();
 
-        return $this->createResponse($curlHandler, $this->request->getExcpectedResponseClassName());
+        return $this->createResponse($curlInstance, $this->request->getExcpectedResponseClassName());
     }
 
-    private function validateRequestMethod(string $httpMethod)
+    private function createResponse(CurlInstance $curlInstance, $responseClassName): AbstractResponse
     {
-        if (!in_array($httpMethod, RequestMethodMap::getList())) {
-            throw new InvalidArgumentException("RequestMethod is not allowed");
-        }
-    }
-
-    private function createResponse($curlHandler, $responseClassName): AbstractResponse
-    {
-        $result = curl_exec($curlHandler);
+        $result = $curlInstance->execute();
         if (false === $result) {
-            throw new Exception("cURL error: " . curl_error($curlHandler));
+            throw new Exception("cURL error: " . $curlInstance->getError());
         }
 
-        if (self::HTTP_OK !== curl_getinfo($curlHandler, CURLINFO_HTTP_CODE)) {
+        if (self::HTTP_OK !== $curlInstance->getInfo(CURLINFO_HTTP_CODE)) {
             throw new BadRequestException(
                 $result,
-                curl_getinfo($curlHandler, CURLINFO_HTTP_CODE)
+                $curlInstance->getInfo(CURLINFO_HTTP_CODE)
             );
         }
 
-        curl_close($curlHandler);
+        $curlInstance->closeResource();
 
         return new $responseClassName($result);
     }

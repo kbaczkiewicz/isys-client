@@ -13,4 +13,6 @@ abstract class AbstractResponse
     {
         $this->body = json_decode($body, true);
     }
+
+    abstract public function getContent(): array;
 }

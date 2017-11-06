@@ -2,16 +2,16 @@
 
 namespace IsysRestClient\Curl;
 
-use IsysRestClient\Authorization\AbstractAuthorization;
+use IsysRestClient\Authorization\AuthorizationInterface;
 use IsysRestClient\Request\RequestMethod\RequestMethodMap;
 use InvalidArgumentException;
 
 class CurlInstanceBuilder
 {
     /**
-     * @var resource
+     * @var CurlInstance
      */
-    private $curlHandler;
+    private $curlInstance;
 
     /**
      * @var string
@@ -21,14 +21,14 @@ class CurlInstanceBuilder
     public function __construct(string $url)
     {
         $this->url = $url;
-        $this->curlHandler = curl_init($url);
-        curl_setopt($this->curlHandler, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($this->curlHandler, CURLOPT_RETURNTRANSFER, true);
+        $this->curlInstance = new CurlInstance($url);
+        $this->curlInstance->setOption(CURLOPT_FOLLOWLOCATION, 1);
+        $this->curlInstance->setOption(CURLOPT_RETURNTRANSFER, 1);
     }
 
     public function setRequestMethod(string $httpMethod): CurlInstanceBuilder
     {
-        curl_setopt($this->curlHandler, CURLOPT_CUSTOMREQUEST, $httpMethod);
+        $this->curlInstance->setOption(CURLOPT_CUSTOMREQUEST, $httpMethod);
 
         return $this;
     }
@@ -36,7 +36,7 @@ class CurlInstanceBuilder
     public function setAdditionalHeaders(array $headers): CurlInstanceBuilder
     {
         foreach ($headers as $header) {
-            curl_setopt($this->curlHandler, CURLOPT_HTTPHEADER, $header);
+            $this->curlInstance->setOption(CURLOPT_HTTPHEADER, $header);
         }
 
         return $this;
@@ -44,34 +44,25 @@ class CurlInstanceBuilder
 
     public function setRequestData($httpMethod, $data): CurlInstanceBuilder
     {
-        switch ($httpMethod) {
-            case RequestMethodMap::METHOD_GET:
-                curl_setopt(
-                    $this->curlHandler,
-                    CURLOPT_URL,
-                    $this->prepareUrlWithQueryString($data)
-                );
-                break;
-            case RequestMethodMap::METHOD_POST:
-                curl_setopt($this->curlHandler, CURLOPT_POSTFIELDS, $data);
-                break;
-            default:
-                throw new InvalidArgumentException("RequestMethod not allowed");
+        if (RequestMethodMap::METHOD_GET === $httpMethod) {
+            $this->curlInstance->setOption(CURLOPT_URL, $this->prepareUrlWithQueryString($data));
+        } else {
+            $this->curlInstance->setOption(CURLOPT_POSTFIELDS, $data);
         }
 
         return $this;
     }
 
-    public function setAuthorization(AbstractAuthorization $authorization): CurlInstanceBuilder
+    public function setAuthorization(AuthorizationInterface $authorization): CurlInstanceBuilder
     {
-        $authorization->authorize($this->curlHandler);
+        $authorization->authorize($this->curlInstance);
 
         return $this;
     }
 
     public function getInstance()
     {
-        return $this->curlHandler;
+        return $this->curlInstance;
     }
 
     private function prepareUrlWithQueryString(string $queryString): string
