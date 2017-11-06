@@ -2,6 +2,7 @@
 
 namespace IsysRestClient\Client;
 
+use IsysRestClient\Curl\CurlInstance;
 use IsysRestClient\Curl\CurlInstanceBuilder;
 use IsysRestClient\Request\AbstractRequest;
 
@@ -13,6 +14,8 @@ class ClientFactory
 
     public static function createClient(AbstractRequest $request): Client
     {
-        return new Client($request, new CurlInstanceBuilder($request->getRequestUrl()));
+        $url = $request->getRequestUrl();
+        $curlInstance = new CurlInstance($request->getRequestUrl());
+        return new Client($request, new CurlInstanceBuilder($curlInstance, $url));
     }
 }

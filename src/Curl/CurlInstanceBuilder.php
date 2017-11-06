@@ -18,12 +18,16 @@ class CurlInstanceBuilder
      */
     private $url;
 
-    public function __construct(string $url)
+    public function __construct(CurlInstance $curlInstance, string $url)
     {
         $this->url = $url;
-        $this->curlInstance = new CurlInstance($url);
-        $this->curlInstance->setOption(CURLOPT_FOLLOWLOCATION, 1);
-        $this->curlInstance->setOption(CURLOPT_RETURNTRANSFER, 1);
+        $this->curlInstance = $curlInstance;
+        $this->curlInstance->setOptions(
+            [
+                CURLOPT_FOLLOWLOCATION => 1,
+                CURLOPT_RETURNTRANSFER => 1,
+            ]
+        );
     }
 
     public function setRequestMethod(string $httpMethod): CurlInstanceBuilder
@@ -60,7 +64,7 @@ class CurlInstanceBuilder
         return $this;
     }
 
-    public function getInstance()
+    public function getInstance(): CurlInstance
     {
         return $this->curlInstance;
     }
