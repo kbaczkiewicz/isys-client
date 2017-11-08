@@ -11,7 +11,7 @@ class CurlInstance
         $this->curlHandler = curl_init($url);
     }
 
-    public function setOption(int $option, string $value)
+    public function setOption(int $option, $value)
     {
         curl_setopt($this->curlHandler, $option, $value);
     }

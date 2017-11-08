@@ -12,10 +12,10 @@ $password = $argv[2];
 $producer = Producer::createByArray(
     [
         'id'            => null,
-        'name'          => 'Test Test',
+        'name'          => 'Testowy Producent',
         'site_url'      => 'http;//example.com',
-        'logo_filename' => 'test.png',
-        'ordering'      => null,
+        'logo_filename' => 'prod.png',
+        'ordering'      => 3527,
         'source_id'     => null,
     ]
 );
